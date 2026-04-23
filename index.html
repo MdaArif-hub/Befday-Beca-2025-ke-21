@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special for Ariana ✨</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;600&family=Great+Vibes&family=Boogaloo&display=swap" rel="stylesheet">
+    <style>
+        /* Tambahan sikit untuk styling surat bagi nampak hidup */
+        .pink-bold { color: var(--pink-solid); font-weight: 700; }
+        .highlight { background: rgba(240, 98, 146, 0.15); padding: 0 4px; border-radius: 4px; }
+        .times-italic { font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 1.1rem; line-height: 1.6; }
+        .dancing-end { font-family: 'Dancing Script', cursive; font-size: 1.3rem; color: #f06292; margin-top: 20px; }
+        .letter-content p { margin-bottom: 18px; color: #444; line-height: 1.7; text-align: justify; }
+    </style>
+</head>
+<body class="fade-in-global">
+
+    <div id="decor-container"></div>
+    <div id="effect-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
+
+    <audio id="bg-music" src="audio/bg music.mp3" loop></audio>
+    <audio id="sfx-click" src="button/click sound.mp3"></audio>
+    <audio id="sfx-error" src="button/error sound.mp3"></audio>
+    <audio id="sfx-tense" src="audio/tense time.mp3" loop></audio>
+    <audio id="sfx-hbd" src="audio/happy birthday.mp3" loop></audio>
+    <audio id="sfx-sad" src="audio/sad violin.mp3" loop></audio>
+    <audio id="sfx-gif" src=""></audio>
+
+    <button id="vol-toggle-btn" class="glass-btn vol-main-btn" onclick="toggleVolumePanel()">
+        <span class="lineicons--menu-hamburger-1"></span>
+    </button>
+    
+    <div id="volume-overlay" class="volume-overlay" onclick="toggleVolumePanel()">
+        <div class="volume-panel" onclick="event.stopPropagation()">
+            <h4>Volume Control 🎵</h4>
+            <button id="mute-all-btn" class="glass-btn btn-mute-shortcut" onclick="toggleMuteAll()">🔊 Mute Semua</button>
+            <div class="vol-row">
+                <label>Music Volume</label>
+                <input type="range" id="music-range" min="0" max="1" step="0.1" value="1" oninput="updateVolume()">
+            </div>
+            <div class="vol-row">
+                <label>Button Volume</label>
+                <input type="range" id="sfx-range" min="0" max="1" step="0.1" value="1" oninput="updateVolume()">
+            </div>
+            <button class="glass-btn btn-close-vol" onclick="toggleVolumePanel()">Tutup</button>
+        </div>
+    </div>
+
+    <div id="reminder-overlay" class="reminder-overlay">
+        <div id="reminder-card" class="reminder-box pop-bounce">
+            <p id="reminder-text-content" class="reminder-text">
+                sebelum kita start, b nak pastikan sayang <b>maximum</b> kan volume supaya semua instrument yang romantic, cheers, "tense ~ suspender" 
+                <br>~ wuuuuuu ~<br> 
+                akan terasa feeling penuh sepanjang wish kali ni
+            </p>
+            <div class="reminder-btn-group">
+                <button id="rem-btn-1" class="glass-btn rem-btn" onclick="nextReminderBtn(2)">kalau dah, tekan sini</button>
+                <button id="rem-btn-2" class="glass-btn rem-btn" style="display: none;" onclick="nextReminderBtn(3)">yakin ke dah ?</button>
+                <button id="rem-btn-3" class="glass-btn rem-btn" style="display: none;" onclick="nextReminderBtn(4)">betul ni ??</button>
+                <button id="rem-btn-4" class="glass-btn rem-btn btn-success-green" style="display: none;" onclick="showHamburgerReminder()">ogheyy jummm ~</button>
+                <button id="rem-btn-5" class="glass-btn rem-btn btn-success-green" style="display: none;" onclick="closeReminder()">alright jum mula</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content-wrapper">
+        <div id="loading-screen" class="screen active">
+            <div class="loader-box">
+                <p class="loading-caption">sekejap sayang.. load website dulu semua data bagi ringan nak explore ~</p>
+                <div class="loading-icons" id="loading-icons"></div>
+            </div>
+        </div>
+
+        <div id="transition-screen" class="screen" onclick="proceedFromGif()">
+            <div class="transition-container">
+                <div id="typing-text-1" class="typing-text dancing-font"></div>
+                <div id="typing-text-2" class="typing-text vibes-font"></div>
+                <div class="gif-wrapper">
+                    <img id="transition-gif" src="" alt="love-gif" class="intro-gif float-up">
+                </div>
+                <p class="tap-instruction"><u>tekan di mana-mana sahaja bahagian skrin</u></p>
+            </div>
+        </div>
+
+        <div id="pin-screen" class="screen pin-bg-special">
+            <div class="pin-box">
+                <h3 style="color: #E91E63; margin-bottom: 10px;">Kod Rahsia Sayang ❤️</h3>
+                <div class="pin-display" id="pin-display"></div>
+                <div class="pin-grid">
+                    <button class="pin-btn glass-btn" onclick="pressPin('1')">1</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('2')">2</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('3')">3</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('4')">4</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('5')">5</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('6')">6</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('7')">7</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('8')">8</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('9')">9</button>
+                    <button class="pin-btn glass-btn btn-alt" onclick="clearPin()">⌫</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('0')">0</button>
+                    <button class="pin-btn glass-btn btn-alt" onclick="submitPin()">✔</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="screen">
+            <div class="question-box">
+                <div id="quiz-container">
+                    <p class="quiz-number" id="quiz-number">Soalan 1/10</p>
+                    <h2 class="quiz-question" id="quiz-question">Soalan loading...</h2>
+                    <div class="quiz-options" id="quiz-options"></div>
+                    <div id="fill-container" style="display: none; margin-top: 20px;">
+                        <div class="textarea-wrapper">
+                            <textarea id="fill-input" placeholder="" oninput="handleInput('fill-input', 'fill-count')"></textarea>
+                            <span id="fill-count" class="word-counter">0/30</span>
+                        </div>
+                        <p id="fill-hint" class="word-hint" style="display: none;">at least 30 perkataan sayangku minimum..</p>
+                        <div class="quiz-nav-btns">
+                            <button class="btn-next glass-btn" onclick="handleFillNext()">Siap dah ? Next pula</button>
+                            <button class="btn-back-quiz glass-btn" onclick="goBackQuiz()">tersalah jawab ? patah balik</button>
+                        </div>
+                    </div>
+                    <div id="reason-container" style="display: none; margin-top: 20px;">
+                        <div class="textarea-wrapper">
+                            <textarea id="reason-input" placeholder="sebab ... ?" oninput="handleReasonInput()"></textarea>
+                            <span id="reason-count" class="word-counter">0/30</span>
+                        </div>
+                        <p id="reason-hint" class="word-hint" style="display: none;">at least 30 perkataan sayangku minimum..</p>
+                        <div class="quiz-nav-btns">
+                            <button class="btn-next glass-btn" onclick="startFillQuestions()">Siap dah ? Next pula</button>
+                            <button class="btn-back-quiz glass-btn" onclick="goBackQuiz()">tersalah jawab ? patah balik</button>
+                        </div>
+                    </div>
+                    <button id="simple-back-btn" class="btn-back-quiz glass-btn" style="margin-top: 15px; display: none;" onclick="goBackQuiz()">tersalah jawab ? patah balik</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="question-screen" class="screen">
+            <div class="question-box">
+                <div class="content-wrapper">
+                    <h1 id="final-emoji" class="cake-icon">🎂🌹</h1>
+                    <p id="final-question-text" class="question-text">Sayang... sayang b tak ?</p>
+                    <div class="btn-group">
+                        <button id="btn-yes" class="btn yes glass-btn no-red" style="display: none;" onclick="handleYesClick()">Mesti lah! ❤️</button>
+                        <button id="btn-no" class="btn no glass-btn no-red" onclick="handleNoClick()">Tak.. 😜</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sad-screen" class="screen">
+            <div class="question-box" style="background: #f8f9fa;">
+                <p>takpelah.. thankyou sayang sepanjang kita bersama, b dah berusaha tapi b pun tak mampu kalau sayang dah taknak.. b halalkan semua dan semoga sayang bahagia dengan pilihan sayang .. 🤗</p>
+                <button class="btn-next glass-btn" onclick="backToDrama()" style="background: #6c757d;">sempat lagi untuk minta maaf kat b 🥺</button>
+            </div>
+        </div>
+
+        <div id="final-screen" class="screen">
+            <div class="phone-frame">
+                <div class="envelope-wrapper">
+                    <div class="envelope" id="envelope">
+                        <div class="envelope-front"></div>
+                        <div class="envelope-top"></div>
+                        <div class="seal heartbeat" id="seal" onclick="openEnvelope()"><span>Tekan<br>Sini</span></div>
+                        <div class="letter-paper" id="letter">
+                            <div class="scroll-content" id="letter-scroll" onscroll="handleLetterScroll()">
+                                <div class="letter-content">
+                                    <h4 style="color: #E91E63; margin-bottom: 25px; font-family: 'Great Vibes', cursive; font-size: 2.1rem; line-height: 1.2;">
+                                        🌙 Untuk Sayang — Nur Ariana Dazilah 🌸
+                                    </h4>
+                                    
+                                    <p>Sayang,<br>Happy birthday, untuk yang ke-21.. <span class="pink-bold">perempuan yang paling b sayang 🤍</span></p>
+
+                                    <p>alhamdulillah, hari ni sayang masih ada, masih bernafas, masih di sisi b.. dan itu dah cukup buat b rasa <span class="highlight">Allah itu Maha Pemurah.</span> b tak minta banyak dalam hidup ni, tapi b minta sayang ada. Selalu ada 🥹</p>
+
+                                    <p>sayang tahu tak, b baca semua benda yang sayang tulis untuk b selama ni. <span class="pink-bold">tiga tahun.</span> tiga kali sayang ambil masa, ambil perasaan, tulis panjang-panjang sampai lewat malam pun tak tidur lagi.. semata-mata sebab sayang nak b rasa disayangi. dan b rasa tu, sayang. b rasa sangat 💗</p>
+
+                                    <p>sayang pernah tulis yang sayang risau bila b balik kerja, risau bila b keluar, risau ada apa-apa jadi kat b. sayang, b nak sayang tahu.. <span class="highlight">rasa risau tu bukan satu beban untuk b.</span> tapi.. tu yang buat b rasa ada orang yang betul-betul tunggu b, betul-betul sayangkan b bukan sekadar cakap je. dan tu, tu yang buat b kuat nak sampai cepat 🤍</p>
+
+                                    <p>b ingat lagi hari-hari yang b penat sangat, tapi bila dengar suara sayang je.. semua penat tu hilang. macam magic fuhh ~ tapi b tahu bukan magic, itu la sayang b ni. itu <span class="pink-bold">kasih sayang yang tak pernah b jumpa</span> dari orang lain sebelum ni 🥺</p>
+
+                                    <p>rindu b pada sayang tu bukan jenis rindu biasa. bila sayang tak reply lama sikit, b dah risau. bila sayang diam, b tahu something tak kena. b dah hafal sayang.. <span class="highlight">cara sayang gelak, cara sayang merajuk, cara sayang pura-pura okay padahal tak okay.</span> dan setiap kali b nampak semua tu, b cuma nak ada dekat sayang, nak pegang tangan sayang, nak cakap, "b ada, b tak ke mana 🫶🏻"</p>
+
+                                    <p>sayang pernah cakap sayang takut b tinggalkan sayang. sayang pernah nangis bila kita gaduh sebab sayang takut. b nak jawab sekarang, terus terang dari hati b yang paling dalam, <span class="pink-bold">"tiada siapa yang lebih baik dari sayang"</span> <i>takde</i> ... sayang bukan sekadar pilihan b, sayang adalah <span class="highlight">jawapan kepada doa b yang b sendiri tak sedar pernah b minta 🥺</span></p>
+
+                                    <p>sayang pernah kata sayang takde apa-apa nak dibandingkan dengan orang lain. tapi sayang silap, sayang. besar sangat silap tu. sayang ada sesuatu yang b cari selama ni, <span class="pink-bold"><i>keikhlasan</i></span>.. cara sayang sayang b, cara sayang tunggu b, cara sayang percayakan b walaupun sayang takut.. semua tu bukan boleh dibeli, bukan boleh dicari di mana-mana. hanya sayang yang ada semua tu, dan hanya b yang tahu betapa berharganya sayang 💗</p>
+
+                                    <p>b nak cakap, <span class="highlight">"terima kasih sayang".</span> bukan terima kasih biasa-biasa.. tapi terima kasih yang b simpan dalam-dalam sebab b tak pandai nak luah pun kadang-kadang 🥹</p>
+
+                                    <p>terima kasih sebab sayang sanggup sabar dengan b. Sabar bila b sibuk, sabar bila b penat, sabar bila b tak sempat nak layan sayang sepenuhnya. sayang tak pernah tuntut lebih dari apa yang b mampu bagi.. dan itu, sayang.. <span class="pink-bold">bukan semua orang boleh buat 🤍</span></p>
+
+                                    <p>terima kasih sebab sayang doakan b selama ni. sayang doakan semua tu untuk b.</p>
+
+                                    <p>sayang tahu tak, setiap kali b penat, setiap kali b rasa nak give up.. b ingat sayang. b akan bangun balik. sebab b nak buktikan pada sayang yang b layak jadi <span class="pink-bold">lelaki yang sayang tunggu tu 💪🏻</span></p>
+
+                                    <p>Terima kasih sebab sayang hadir dalam hidup b waktu b pun tak tahu b perlukan seseorang. waktu b pun tengah cari arah, sayang dah ada.. <span class="highlight">diam-diam jadi semangat b, diam-diam jadi tujuan b 🌸</span></p>
+
+                                    <p>sayang selalu tulis nak jadi isteri b, nak masak untuk b, nak tunggu depan pintu bila b balik, nak jaga b bila sakit. sayang, b nak sayang tahu.. b lagi-lagi la nak semua tu juga. bukan sebab lakonan, tapi sebab b betul-betul nak rasa disayangi dan menyayangi 🥹</p>
+
+                                    <p>b nak bangun pagi dan tengok muka sayang dulu sebelum tengok benda lain. b nak sayang ada sebelah b bila b penat, bila b jatuh, bila b tak tahu nak ke mana. b nak kita gaduh pasal benda remeh.. sebab.. gaduh macam tu pun b rasa <span class="highlight">sayang masih nak b bagi balik perhatian</span> kat sayang setelah b focus sangat pada dunia ni 😄🤍</p>
+
+                                    <p>b nak sayang jadi ibu untuk anak-anak kita. sebab b yakin, anak-anak kita akan jadi manusia yang baik, yang penyayang, yang kuat.. kalau ada sayang yang besarkan mereka. dan b nak jadi ayah yang sayang selalu bangga cerita pada anak-anak kita nanti 🌷</p>
+
+                                    <p>b ingat lagi macam mana kita mula. perkenalan singkat yang b sendiri tak sangka boleh bawa kita sampai sejauh ni. <span class="pink-bold"><i>4 tahun</i></span>, sayang. dan b masih pilih sayang, tiap-tiap hari, tanpa ragu 🫂</p>
+
+                                    <p>inshaAllah, sayang. inshaAllah kita sampai ke sana. ke hari yang mana.. kita dua berdiri depan semua orang, dengan hati yang dah lama janji pada satu sama lain. <span class="pink-bold">b tak sabar nak tunggu hari tu 💍</span></p>
+
+                                    <p>hari ni birthday sayang, tapi b yang rasa macam dapat hadiah.. hadiah dikurniakan perempuan seikhlasnya, setabahnya, semanisnya sayang dalam hidup b.</p>
+
+                                    <p>semoga Allah panjangkan umur sayang, murahkan rezeki sayang, mudahkan segala urusan sayang .. <span class="pink-bold"><i>aaminnn</i></span> 🤲✨ dan semoga Allah izinkan kita jumpa di penghujung doa kita.. di atas sejadah yang sama, dalam satu rumah yang kita bina bersama, dengan anak-anak kecil yang berlari-lari depan mata kita 🥹🏡</p>
+
+                                    <div class="times-italic" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                                        "Selamat Harijadi buah hati b, bakal isteri b, bakal ibu untuk anak-anak kita ini 🌸.. yang <b>ke-21</b> sempena pada tarikh 24 April 2026, semoga sentiasa menjadi anak yang solehah, sentiasa berusaha menjadi lagi terbaik dari yang terbaik! b sama-sama doakan kesejahteraan, keselamatan, kebahagiaan kita berdua bermula dari sekarang.. sehingga la di kemudian hari, <b>aamin YA Rabbal A'lamin</b> 🤲🏻"
+                                    </div>
+
+                                    <div class="dancing-end">
+                                        b <b>sayangggggg</b> sayang teramat sangat.. semalam, hari ni, dan selamanya 🤍
+                                        <br><br>
+                                        ~ sekian dari usaha b yang tidak ternilai ini ~ 🌼💗
+                                    </div>
+
+                                    <div style="height: 100px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="floating-controls" class="floating-container">
+                <button class="btn-float left glass-btn" onclick="resetEnvelope()">Reset Surat ↩️</button>
+                <button id="btn-scroll-top" class="btn-float right glass-btn" style="display: none;" onclick="scrollToTopLetter()">Ke Atas ⬆️</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

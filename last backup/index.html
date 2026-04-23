@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special for Ariana ✨</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;600&family=Great+Vibes&family=Boogaloo&display=swap" rel="stylesheet">
+</head>
+<body class="fade-in-global">
+
+    <div id="decor-container"></div>
+    <div id="effect-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
+
+    <audio id="bg-music" src="audio/bg music.mp3" loop></audio>
+    <audio id="sfx-click" src="button/click sound.mp3"></audio>
+    <audio id="sfx-error" src="button/error sound.mp3"></audio>
+    <audio id="sfx-tense" src="audio/tense time.mp3" loop></audio>
+    <audio id="sfx-hbd" src="audio/happy birthday.mp3" loop></audio>
+    <audio id="sfx-sad" src="audio/sad violin.mp3" loop></audio>
+    <audio id="sfx-gif" src=""></audio>
+
+    <button id="vol-toggle-btn" class="glass-btn vol-main-btn" onclick="toggleVolumePanel()">
+        <span class="lineicons--menu-hamburger-1"></span>
+    </button>
+    
+    <div id="volume-overlay" class="volume-overlay" onclick="toggleVolumePanel()">
+        <div class="volume-panel" onclick="event.stopPropagation()">
+            <h4>Volume Control 🎵</h4>
+            
+            <button id="mute-all-btn" class="glass-btn btn-mute-shortcut" onclick="toggleMuteAll()">🔊 Mute Semua</button>
+
+            <div class="vol-row">
+                <label>Music Volume</label>
+                <input type="range" id="music-range" min="0" max="1" step="0.1" value="1" oninput="updateVolume()">
+            </div>
+            <div class="vol-row">
+                <label>Button Volume</label>
+                <input type="range" id="sfx-range" min="0" max="1" step="0.1" value="1" oninput="updateVolume()">
+            </div>
+            <button class="glass-btn btn-close-vol" onclick="toggleVolumePanel()">Tutup</button>
+        </div>
+    </div>
+
+    <div id="reminder-overlay" class="reminder-overlay">
+        <div id="reminder-card" class="reminder-box pop-bounce">
+            <p id="reminder-text-content" class="reminder-text">
+                sebelum kita start, b nak pastikan sayang <b>maximum</b> kan volume supaya semua instrument yang romantic, cheers, "tense ~ suspender" 
+                <br>~ wuuuuuu ~<br> 
+                akan terasa feeling penuh sepanjang wish kali ni
+            </p>
+            <div class="reminder-btn-group">
+                <button id="rem-btn-1" class="glass-btn rem-btn" onclick="nextReminderBtn(2)">kalau dah, tekan sini</button>
+                <button id="rem-btn-2" class="glass-btn rem-btn" style="display: none;" onclick="nextReminderBtn(3)">yakin ke dah ?</button>
+                <button id="rem-btn-3" class="glass-btn rem-btn" style="display: none;" onclick="nextReminderBtn(4)">betul ni ??</button>
+                <button id="rem-btn-4" class="glass-btn rem-btn btn-success-green" style="display: none;" onclick="showHamburgerReminder()">ogheyy jummm ~</button>
+                <button id="rem-btn-5" class="glass-btn rem-btn btn-success-green" style="display: none;" onclick="closeReminder()">alright jum mula</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content-wrapper">
+        <div id="loading-screen" class="screen active">
+            <div class="loader-box">
+                <p class="loading-caption">sekejap sayang.. load website dulu semua data bagi ringan nak explore ~</p>
+                <div class="loading-icons" id="loading-icons"></div>
+            </div>
+        </div>
+
+        <div id="transition-screen" class="screen" onclick="proceedFromGif()">
+            <div class="transition-container">
+                <div id="typing-text-1" class="typing-text dancing-font"></div>
+                <div id="typing-text-2" class="typing-text vibes-font"></div>
+                <div class="gif-wrapper">
+                    <img id="transition-gif" src="" alt="love-gif" class="intro-gif float-up">
+                </div>
+                <p class="tap-instruction"><u>tekan di mana-mana sahaja bahagian skrin</u></p>
+            </div>
+        </div>
+
+        <div id="pin-screen" class="screen pin-bg-special">
+            <div class="pin-box">
+                <h3 style="color: #E91E63; margin-bottom: 10px;">Kod Rahsia Sayang ❤️</h3>
+                <div class="pin-display" id="pin-display"></div>
+                <div class="pin-grid">
+                    <button class="pin-btn glass-btn" onclick="pressPin('1')">1</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('2')">2</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('3')">3</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('4')">4</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('5')">5</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('6')">6</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('7')">7</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('8')">8</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('9')">9</button>
+                    <button class="pin-btn glass-btn btn-alt" onclick="clearPin()">⌫</button>
+                    <button class="pin-btn glass-btn" onclick="pressPin('0')">0</button>
+                    <button class="pin-btn glass-btn btn-alt" onclick="submitPin()">✔</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz-screen" class="screen">
+            <div class="question-box">
+                <div id="quiz-container">
+                    <p class="quiz-number" id="quiz-number">Soalan 1/10</p>
+                    <h2 class="quiz-question" id="quiz-question">Soalan loading...</h2>
+                    <div class="quiz-options" id="quiz-options"></div>
+                    
+                    <div id="fill-container" style="display: none; margin-top: 20px;">
+                        <div class="textarea-wrapper">
+                            <textarea id="fill-input" placeholder="" oninput="handleInput('fill-input', 'fill-count')"></textarea>
+                            <span id="fill-count" class="word-counter">0/30</span>
+                        </div>
+                        <p id="fill-hint" class="word-hint" style="display: none;">at least 30 perkataan sayangku minimum.. nanti tak best la kalau letak "semua" macam sebelum ni hihihi</p>
+                        <div class="quiz-nav-btns">
+                            <button class="btn-next glass-btn" onclick="handleFillNext()">Siap dah ? Next pula</button>
+                            <button class="btn-back-quiz glass-btn" onclick="goBackQuiz()">tersalah jawab ? patah balik</button>
+                        </div>
+                    </div>
+
+                    <div id="reason-container" style="display: none; margin-top: 20px;">
+                        <div class="textarea-wrapper">
+                            <textarea id="reason-input" placeholder="sebab ... ?" oninput="handleReasonInput()"></textarea>
+                            <span id="reason-count" class="word-counter">0/30</span>
+                        </div>
+                        <p id="reason-hint" class="word-hint" style="display: none;">at least 30 perkataan sayangku minimum.. nanti tak best la kalau letak "semua" macam sebelum ni hihihi</p>
+                        <div class="quiz-nav-btns">
+                            <button class="btn-next glass-btn" onclick="startFillQuestions()">Siap dah ? Next pula</button>
+                            <button class="btn-back-quiz glass-btn" onclick="goBackQuiz()">tersalah jawab ? patah balik</button>
+                        </div>
+                    </div>
+
+                    <button id="simple-back-btn" class="btn-back-quiz glass-btn" style="margin-top: 15px; display: none;" onclick="goBackQuiz()">tersalah jawab ? patah balik</button>
+                    
+                    <div class="copyright">
+                        Copyright ©️ mdanialarif07@gmail.com<br>
+                        #Arifanaksulung, #BabybecarAriana
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="question-screen" class="screen">
+            <div class="question-box">
+                <div class="content-wrapper">
+                    <h1 id="final-emoji" class="cake-icon">🎂🌹</h1>
+                    <p id="final-question-text" class="question-text">Sayang... sayang b tak ?</p>
+                    <div class="btn-group">
+                        <button id="btn-yes" class="btn yes glass-btn no-red" style="display: none;" onclick="handleYesClick()">Mesti lah! ❤️</button>
+                        <button id="btn-no" class="btn no glass-btn no-red" onclick="handleNoClick()">Tak.. 😜</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sad-screen" class="screen">
+            <div class="question-box" style="background: #f8f9fa;">
+                <p style="font-size: 1.1rem; line-height: 1.6; color: #555; margin-bottom: 25px;">
+                    takpelah.. thankyou sayang sepanjang kita bersama, b dah berusaha tapi b pun tak mampu kalau sayang dah taknak.. b halalkan semua dan semoga sayang bahagia dengan pilihan sayang .. 🤗
+                </p>
+                <button class="btn-next glass-btn" onclick="backToDrama()" style="background: #6c757d;">sempat lagi untuk minta maaf kat b 🥺</button>
+            </div>
+        </div>
+
+        <div id="final-screen" class="screen">
+            <div class="phone-frame">
+                <div class="envelope-wrapper">
+                    <div class="envelope" id="envelope">
+                        <div class="envelope-front"></div>
+                        <div class="envelope-top"></div>
+                        <div class="seal heartbeat" id="seal" onclick="openEnvelope()"><span>Tekan<br>Sini</span></div>
+                        <div class="letter-paper" id="letter">
+                            <div class="scroll-content" id="letter-scroll" onscroll="handleLetterScroll()">
+                                <h4 style="color: #E91E63; margin-bottom: 20px; font-family: 'Dancing Script', cursive; font-size: 1.8rem;">Happy Birthday Sayang! 💖</h4>
+                                <p>Selamat hari lahir Ariana! ✨</p>
+                                <p>Dah 24 haribulan kan? Saya harap tahun ni jadi tahun yang paling bermakna untuk awak.🌹</p>
+                                <p>Terima kasih sebab sudi ada dengan saya. Awaklah bunga paling cantik dalam hidup saya. 🌸🍭</p>
+                                <p>I Love You Forever! ❤️✨</p>
+                                
+                                <div style="margin-top: 30px; line-height: 1.8;">
+                                    <p>Letak karangan b kat sini nanti.</p>
+                                    <div style="height: 600px;"></div>
+                                    <p>Hujung karangan b...</p>
+                                    <div style="height: 50px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="floating-controls" class="floating-container">
+                <button class="btn-float left glass-btn" onclick="resetEnvelope()">Reset Surat ↩️</button>
+                <button id="btn-scroll-top" class="btn-float right glass-btn" style="display: none;" onclick="scrollToTopLetter()">Ke Atas ⬆️</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
