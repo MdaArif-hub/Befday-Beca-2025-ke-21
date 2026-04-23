@@ -160,7 +160,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px
 @keyframes attentionSeeker { 0%, 90%, 100% { transform: translateX(0) scale(1); } 92% { transform: translateX(-3px); } 94% { transform: translateX(3px); } 97% { transform: scale(1.03); } }
 
 @media (max-width: 600px) { 
-    .dancing-font { font-size: 34px !important; top: 13% !important; }
+    .dancing-font { font-size: 34px !important; top: 11% !important; }
     .vibes-font { font-size: 30px !important; top: 24% !important; }
     .intro-gif { width: 200px; } 
     .tap-instruction { font-size: 14px; top: 75%; bottom: auto; }
